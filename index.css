@@ -8,11 +8,12 @@ body {
 
 h1{
     font-family: "Playwrite DE Grund", cursive;
+    margin-top: 0;
 }
 
 iframe{
-    height: 35vw;
-    width: 75vw;
+    height: 32vw;
+    width: 72vw;
     padding-bottom: 1em;
 }
 
@@ -28,12 +29,12 @@ button {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.2s;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 button:hover {
-    background-color: #f2f2f2; /* Light gray background on hover */
-    border-color: white;
+    background-color: black; /* Light gray background on hover */
+    color:white
 }
 
 button:focus {
@@ -42,5 +43,6 @@ button:focus {
 }
 
 button:active {
-    background-color: #e9e9e9; /* Slightly darker gray background on active */
+    background-color: #6d6d6d; /* Slightly darker gray background on active */
+    border-color: #6d6d6d;
 }
