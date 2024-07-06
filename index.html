@@ -8,15 +8,26 @@
     </head>
     <body>
         <h1>My Fav Chef</h1>
-        <iframe src="https://www.youtube.com/embed/nDWDgz2Xqq0" frameborder="0" allowfullscreen></iframe>
+        <iframe frameborder="0" allowfullscreen></iframe>
         <button>GIVE ME FOOD!</button>
     </body>
     <script>
-        document.querySelector('button').addEventListener('click', () => {
+        const getVideo = () => {
             fetch('http://localhost:3000/get-random-video', {
                 method: 'get',
-        });
-        });
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('iframe').src = `https://www.youtube.com/embed/${data}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Sorry, something went wrong. Please try again.');
+            });
+        };
+
+        getVideo();
+        document.querySelector('button').addEventListener('click',getVideo);
     </script>
 </html>
 
