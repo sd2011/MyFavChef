@@ -11,5 +11,13 @@
         <iframe src="https://www.youtube.com/embed/nDWDgz2Xqq0" frameborder="0" allowfullscreen></iframe>
         <button>GIVE ME FOOD!</button>
     </body>
+    <script>
+        document.querySelector('button').addEventListener('click', () => {
+            alert('Here is your food!');
+            fetch('http://localhost:3000/', {
+                method: 'get',
+        });
+        });
+    </script>
 </html>
 
