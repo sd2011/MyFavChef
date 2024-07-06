@@ -6,8 +6,12 @@ const port = 3000;
 
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.get("/get-random-video", (req, res) => {
+  //get data from uniqueVideos.json
+  const fs = require("fs");
+  const videos = JSON.parse(fs.readFileSync("uniqueVideos.json"));
+  const randomIndex = Math.floor(Math.random() * videos.length);
+  res.json(videos[randomIndex].videoId);
 });
 
 app.listen(port, () => {
