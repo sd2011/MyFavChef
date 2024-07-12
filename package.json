@@ -7,6 +7,8 @@
     "fs": "^0.0.1-security"
   },
   "devDependencies": {
-    "@types/node": "^20.14.9"
+    "@types/node": "^20.14.9",
+    "install": "^0.13.0",
+    "serverless-finch": "^4.0.4"
   }
 }

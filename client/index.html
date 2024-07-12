@@ -8,12 +8,13 @@
     </head>
     <body>
         <h1>My Fav Chef</h1>
-        <iframe frameborder="0" allowfullscreen></iframe>
+        <iframe  frameborder="0" allowfullscreen></iframe>
         <button>GIVE ME FOOD!</button>
     </body>
+    <script src="config.js"></script>
     <script>
         const getVideo = () => {
-            fetch('http://localhost:3000/get-random-video', {
+            fetch(`${window.env.API_URL}/get-random-video`, {
                 method: 'get',
             })
             .then(response => response.json())
