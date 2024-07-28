@@ -6,7 +6,13 @@ service: myfavchef
 provider:
   name: aws
   runtime: nodejs20.x
-
+  environment:
+    DB_HOST: ${env:DB_HOST}
+    DB_USER: ${env:DB_USER}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${env:DB_NAME}
+  
+    
 functions:
   randomVideo:
     handler: handler.randomVideo
@@ -15,7 +21,76 @@ functions:
           path: get-random-video
           method: get
           cors: true
-
+    vpc:
+      securityGroupIds:
+        - ${env:SECURITY_GROUP_ID}
+      subnetIds:
+        - ${env:SUBNET_ID1}
+        - ${env:SUBNET_ID2}
+        - ${env:SUBNET_ID3}
+        - ${env:SUBNET_ID4}
+        - ${env:SUBNET_ID5}
+        - ${env:SUBNET_ID6}
+        
+  createTable:
+    handler: handler.createTable
+    events:
+      - http:
+          path: create-table
+          method: get
+          cors: true
+    vpc:
+      securityGroupIds:
+        - ${env:SECURITY_GROUP_ID}
+      subnetIds:
+        - ${env:SUBNET_ID1}
+        - ${env:SUBNET_ID2}
+        - ${env:SUBNET_ID3}
+        - ${env:SUBNET_ID4}
+        - ${env:SUBNET_ID5}
+        - ${env:SUBNET_ID6}
+  
+  insertData:
+    handler: handler.insertData
+    events:
+      - http:
+          path: insert-data
+          method: get
+          cors: true
+    vpc:
+      securityGroupIds:
+        - ${env:SECURITY_GROUP_ID}
+      subnetIds:
+        - ${env:SUBNET_ID1}
+        - ${env:SUBNET_ID2}
+        - ${env:SUBNET_ID3}
+        - ${env:SUBNET_ID4}
+        - ${env:SUBNET_ID5}
+        - ${env:SUBNET_ID6}
+    
 package:
   include:
     - uniqueVideos.json
+
+
+
+
+  
+resources:
+  Resources:
+    VideoRDSInstance:
+      Type: AWS::RDS::DBInstance
+      Properties:
+        DBName: ${self:provider.environment.DB_NAME}
+        Engine: mysql  
+        MasterUsername: ${self:provider.environment.DB_USER}
+        MasterUserPassword: ${self:provider.environment.DB_PASSWORD}
+        AllocatedStorage: 20
+        DBInstanceClass: db.t3.micro  # Choose appropriate instance type
+        PubliclyAccessible: false  # Set to true if you need to access from outside VPC
+        Tags:
+          - Key: Name
+            Value: VideoRDSInstance
+        VPCSecurityGroups:
+          - ${env:SECURITY_GROUP_ID}  
+
