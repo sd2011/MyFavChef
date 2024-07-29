@@ -29,6 +29,10 @@ module.exports.randomVideo = async (event) => {
         console.log('Query result:', results);
         resolve({
           statusCode: 200,
+          headers: {
+      'Access-Control-Allow-Origin': process.env.CLIENT_DOMAIN, // <-- Add your specific origin here
+      'Access-Control-Allow-Credentials': true,
+    },
           body: JSON.stringify(
             results[0].videoId, 
           ),
