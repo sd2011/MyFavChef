@@ -1,4 +1,3 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: stavd
 app: get-random-videos
 service: myfavchef
@@ -11,7 +10,7 @@ provider:
     DB_USER: ${env:DB_USER}
     DB_PASSWORD: ${env:DB_PASSWORD}
     DB_NAME: ${env:DB_NAME}
-  
+    HUB_SECRET: ${env:HUB_SECRET}
     
 functions:
   randomVideo:
@@ -23,7 +22,7 @@ functions:
           cors: true
     vpc:
       securityGroupIds:
-        - ${env:SECURITY_GROUP_ID}
+        - ${env:LAMBDA_RDS_SECURITY_GROUP_ID}
       subnetIds:
         - ${env:SUBNET_ID1}
         - ${env:SUBNET_ID2}
@@ -31,6 +30,25 @@ functions:
         - ${env:SUBNET_ID4}
         - ${env:SUBNET_ID5}
         - ${env:SUBNET_ID6}
+
+  youtubeWebhook:
+    handler: handler.youtubeWebhook
+    events:
+      - http:
+          path: youtube
+          method: post
+          cors: true
+    vpc:
+      securityGroupIds:
+        - ${env:LAMBDA_RDS_SECURITY_GROUP_ID}
+      subnetIds:
+        - ${env:SUBNET_ID1}
+        - ${env:SUBNET_ID2}
+        - ${env:SUBNET_ID3}
+        - ${env:SUBNET_ID4}
+        - ${env:SUBNET_ID5}
+        - ${env:SUBNET_ID6}
+
         
 resources:
   Resources:
@@ -42,13 +60,13 @@ resources:
         MasterUsername: ${self:provider.environment.DB_USER}
         MasterUserPassword: ${self:provider.environment.DB_PASSWORD}
         AllocatedStorage: 20
-        DBInstanceClass: db.t3.micro  # Choose appropriate instance type
-        PubliclyAccessible: false  # Set to true if you need to access from outside VPC
+        DBInstanceClass: db.t3.micro  
+        PubliclyAccessible: false  
         Tags:
           - Key: Name
             Value: VideoRDSInstance
         VPCSecurityGroups:
-          - ${env:SECURITY_GROUP_ID}  
+          - ${env:RDS_LAMBDA_SECURITY_GROUP_ID}  
     
     GatewayResponseDefault4XX:
       Type: 'AWS::ApiGateway::GatewayResponse'
